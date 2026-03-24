@@ -3,10 +3,20 @@ package com.acsanfrancisco.firstspringproject.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity  // indica a classe como uma entidade do banco de dados, cada objeto vira uma linha da tabela ( a classe vira uma tabela ).
+@Table(name="tb_user")  // define o nome da tabela no banco de dados 
 public class User implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
+	@Id // define a chave primaria da tabela
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // diz como o Id vai ser gerado - identity(auto_increment) - sequence(usa sequência) - table(usa tabela para controlar ids) - auto(hibernate decide)
 	private Long id;
 	private String name;
 	private String email;

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.acsanfrancisco.firstspringproject.entities.User;
 
-@RestController // indica que essa classe responde requisições HTTP ( @Controller, @ResponseBody)
+@RestController // indica que essa classe responde requisições HTTP (@Controller, @ResponseBody)
 @RequestMapping("/user") // define qual a rota da URL (/user)
 public class UserResource {
 

@@ -20,8 +20,8 @@ public class UserService {
 	}
 	
 	public User findById(Long id) {
-		Optional<User> opt = userRepository.findById(id);
-		return opt.get();
+		Optional<User> user = userRepository.findById(id);
+		return user.get();
 	}
 
 }

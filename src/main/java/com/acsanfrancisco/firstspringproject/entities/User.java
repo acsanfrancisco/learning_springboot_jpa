@@ -1,12 +1,17 @@
 package com.acsanfrancisco.firstspringproject.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity  // indica a classe como uma entidade do banco de dados, cada objeto vira uma linha da tabela ( a classe vira uma tabela ).
@@ -22,6 +27,10 @@ public class User implements Serializable{
 	private String email;
 	private String phone;
 	private String password;
+	
+	@OneToMany(mappedBy ="client" ) // indica que é uma relação um(cliente) para muitos(pedidos), mappedBy indica que quem controla a relação é o atribulo client de Order
+	@JsonIgnore // ignora esse campo na conversão ( evita loop infinito ou ignora um campo que precise ser escondido)
+	private List<Order> orders = new ArrayList<>();
 	
 	public User() {
 	}
@@ -78,6 +87,10 @@ public class User implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	public List<Order> getOrders() {
+		return orders;
+	}
 
 	@Override
 	public int hashCode() {
@@ -94,5 +107,5 @@ public class User implements Serializable{
 			return false;
 		User other = (User) obj;
 		return Objects.equals(id, other.id);
-	}	
+	}		
 }

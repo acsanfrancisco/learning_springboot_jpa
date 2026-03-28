@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.acsanfrancisco.firstspringproject.entities.Category;
 import com.acsanfrancisco.firstspringproject.entities.Order;
 import com.acsanfrancisco.firstspringproject.entities.OrderItem;
+import com.acsanfrancisco.firstspringproject.entities.Payment;
 import com.acsanfrancisco.firstspringproject.entities.Product;
 import com.acsanfrancisco.firstspringproject.entities.User;
 import com.acsanfrancisco.firstspringproject.entities.enums.OrderStatus;
@@ -57,7 +58,7 @@ public class TestConfig implements CommandLineRunner {
 		User u3 = new User(null, "João Francisco", "joaosanneto225@gmail.com", "998934323", "12345");
 		
 		// Preechimento da tb_order
-		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), OrderStatus.SHIPPED, u1);
+		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), OrderStatus.PAID, u1);
 		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), OrderStatus.CANCELED, u2);
 		Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), OrderStatus.WAITING_PAYMENT, u3);
 		
@@ -86,6 +87,10 @@ public class TestConfig implements CommandLineRunner {
 		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
 		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
 		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice()); 
+		
+		// Adicionando um pagamento a um pedido
+		Payment pay1 = new Payment(null, Instant.parse("2019-06-20T21:00:07Z"), o1);
+		o1.setPayment(pay1); 
 
 		// Salvando no banco de dados
 		userRepository.saveAll(Arrays.asList(u1, u2, u3));
@@ -93,5 +98,6 @@ public class TestConfig implements CommandLineRunner {
 		categoryRepository.saveAll(Arrays.asList(c1, c2, c3));
 		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+		
 	}
 }

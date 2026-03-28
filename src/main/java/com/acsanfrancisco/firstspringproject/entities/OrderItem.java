@@ -33,7 +33,7 @@ public class OrderItem implements Serializable{
 		id.setProduct(product);
 	}
 	
-	@JsonIgnore // getOrder estava chamando o Order associado ao OrderItem, gerando um loop infinito
+	@JsonIgnore // getOrder chama o Order associado ao OrderItem, gerando um loop infinito
 	public Order getOrder() {
 		return id.getOrder();
 	}

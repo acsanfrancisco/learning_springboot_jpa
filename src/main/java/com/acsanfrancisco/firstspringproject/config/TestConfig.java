@@ -8,9 +8,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.acsanfrancisco.firstspringproject.entities.Category;
 import com.acsanfrancisco.firstspringproject.entities.Order;
 import com.acsanfrancisco.firstspringproject.entities.User;
 import com.acsanfrancisco.firstspringproject.entities.enums.OrderStatus;
+import com.acsanfrancisco.firstspringproject.repositories.CategoryRepository;
 import com.acsanfrancisco.firstspringproject.repositories.OrderRepository;
 import com.acsanfrancisco.firstspringproject.repositories.UserRepository;
 
@@ -27,8 +29,12 @@ public class TestConfig implements CommandLineRunner{
 	
 	@Autowired
 	private OrderRepository orderRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 	@Override 
+	// Preenchimento do banco de dados H2
 	public void run(String... args) throws Exception { 
 		//oque estiver dentro desse método será executado 
 		User u1 = new User(null, "Maria Brown", "maria@gmail.com", "998934323", "123456");
@@ -42,5 +48,11 @@ public class TestConfig implements CommandLineRunner{
 		Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), OrderStatus.WAITING_PAYMENT , u3);
 		
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3));
+		
+		Category c1 = new Category(null, "Electronics");
+		Category c2 = new Category(null, "Books");
+		Category c3 = new Category(null, "Computers"); 
+		
+		categoryRepository.saveAll(Arrays.asList(c1, c2, c3));
 	}                            
 }

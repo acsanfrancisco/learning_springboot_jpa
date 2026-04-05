@@ -12,6 +12,8 @@ import com.acsanfrancisco.firstspringproject.repositories.UserRepository;
 import com.acsanfrancisco.firstspringproject.services.exceptions.DataBaseException;
 import com.acsanfrancisco.firstspringproject.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service // indica que a classe pertence a camada de serviços
 public class UserService {
 	
@@ -46,9 +48,14 @@ public class UserService {
 	}
 	
 	public User update(Long id, User user) {
-		User entity = userRepository.getReferenceById(id); // cria um objeto referência com o id, sem acessar o banco de dados
-		updateData(entity, user);
-		return userRepository.save(entity);
+		try {
+			User entity = userRepository.getReferenceById(id); // cria um objeto referência com o id, sem acessar o banco de dados
+			updateData(entity, user);
+			return userRepository.save(entity);
+		}
+		catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void updateData(User entity, User user) {

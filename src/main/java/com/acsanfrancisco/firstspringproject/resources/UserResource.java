@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,5 +43,11 @@ public class UserResource {
 		user = service.insert(user);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri(); // gera a URI para indicar onde o recurso adicionado pode ser consultado.
 		return ResponseEntity.created(uri).body(user); // retorna o Status 201 CREATED, indicando que o objeto foi criado com sucesso.
+	}
+	
+	@DeleteMapping(value="/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id){
+		service.delete(id);
+		return ResponseEntity.noContent().build(); // retorna o Status 204 NO CONTENT, indicando que o objeto foi deletado com sucesso.
 	}
 }

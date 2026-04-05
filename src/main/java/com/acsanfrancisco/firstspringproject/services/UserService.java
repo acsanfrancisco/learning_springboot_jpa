@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.acsanfrancisco.firstspringproject.entities.User;
 import com.acsanfrancisco.firstspringproject.repositories.UserRepository;
+import com.acsanfrancisco.firstspringproject.services.exceptions.ResourceNotFoundException;
 
 @Service // indica que a classe pertence a camada de serviços
 public class UserService {
@@ -21,7 +22,7 @@ public class UserService {
 	
 	public User findById(Long id) {
 		Optional<User> user = userRepository.findById(id);
-		return user.get();
+		return user.orElseThrow(() -> new ResourceNotFoundException(id)); // tenta puxar o id do usuário, caso não exista lança uma exceção
 	}
 	
 	public User insert(User user) {

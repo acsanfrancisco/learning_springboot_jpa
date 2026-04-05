@@ -31,4 +31,16 @@ public class UserService {
 	public void delete(Long id) {
 		userRepository.deleteById(id);
 	}
+	
+	public User update(Long id, User user) {
+		User entity = userRepository.getReferenceById(id); // cria um objeto referência com o id, sem acessar o banco de dados
+		updateData(entity, user);
+		return userRepository.save(entity);
+	}
+
+	private void updateData(User entity, User user) {
+		entity.setName(user.getName());
+		entity.setEmail(user.getEmail());
+		entity.setPhone(user.getPhone());
+	}
 }

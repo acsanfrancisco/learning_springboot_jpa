@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.acsanfrancisco.firstspringproject.entities.User;
 import com.acsanfrancisco.firstspringproject.repositories.UserRepository;
+import com.acsanfrancisco.firstspringproject.services.exceptions.DataBaseException;
 import com.acsanfrancisco.firstspringproject.services.exceptions.ResourceNotFoundException;
 
 @Service // indica que a classe pertence a camada de serviços
@@ -30,7 +32,17 @@ public class UserService {
 	}
 	
 	public void delete(Long id) {
-		userRepository.deleteById(id);
+		try {
+			if(userRepository.existsById(id)) {
+				userRepository.deleteById(id);
+			}
+			else {
+				throw new ResourceNotFoundException(id);
+			}
+		}
+		catch(DataIntegrityViolationException e) {
+			throw new DataBaseException(e.getMessage());
+		}
 	}
 	
 	public User update(Long id, User user) {

@@ -1,13 +1,17 @@
 package com.acsanfrancisco.firstspringproject.resources;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.acsanfrancisco.firstspringproject.entities.User;
 import com.acsanfrancisco.firstspringproject.services.UserService;
@@ -31,5 +35,12 @@ public class UserResource {
 	public ResponseEntity<User> findById(@PathVariable Long id){  // pega o valor da URL
 		User u = service.findById(id);
 		return ResponseEntity.ok().body(u);
+	}
+	
+	@PostMapping // define que esse método responde requisições HTTP do tipo POST
+	public ResponseEntity<User> insert(@RequestBody User user){ // recebe o Json da requisição e converte em objeto
+		user = service.insert(user);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri(); // gera a URI para indicar onde o recurso adicionado pode ser consultado.
+		return ResponseEntity.created(uri).body(user); // retorna o Status 201 CREATED, indicando que o objeto foi criado com sucesso.
 	}
 }
